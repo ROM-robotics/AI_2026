@@ -121,7 +121,7 @@ python -m ipykernel install --user --name myenv
 ```
 
 ```bash 
-pip freeze | geep -v "file://" > requirment.txt
+pip freeze | grep -v "file://" > requirment.txt
 
 ```
 

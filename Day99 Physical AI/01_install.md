@@ -130,21 +130,6 @@ source ~/.bashrc
 
 ---
 
-## အဆင့် ၄ - Installation အောိင်မှု စစ်ဆေးခြင်း
-
-```bash
-# Isaac Lab environment ကို activate လုပ်ပါ
-conda activate isaaclab
-
-# Test script run ကြည့်ပါ
-cd IsaacLab
-./isaaclab.sh -p source/standalone/tutorials/00_sim/create_empty.py
-```
-
-အကယ်၍ simulation window ပွင့်လာရင် installation အောင်မြင်ပါပြီ!
-
----
-
 ## သတိပြုရန်များ
 
 - **GPU Memory:** အနည်းဆုံး 8GB VRAM လိုအပ်ပါတယ်
@@ -152,23 +137,3 @@ cd IsaacLab
 - **Internet:** Download အတွက် stable internet လိုပါတယ်
 
 ---
-
-## အခက်အခဲတွေ့ရင်
-
-**Problem: CUDA version မတူရင်**
-```bash
-# CUDA version အသစ် install လုပ်ပါ
-# https://developer.nvidia.com/cuda-downloads
-```
-
-**Problem: Docker permission denied**
-```bash
-sudo usermod -aG docker $USER
-# Logout and login again
-```
-
-**Problem: Isaac Sim မပွင့်ရင်**
-```bash
-# Vulkan drivers ထည့်ပါ
-sudo apt-get install libvulkan1
-```
