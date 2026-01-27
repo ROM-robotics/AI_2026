@@ -21,6 +21,7 @@ python train_lnn.py --bag /home/mr_robot/square --epochs 100 --batch_size 32
 # ROS2 Node အနေနဲ့ run
 python3 lnn_inference_node.py
 
+
 # Parameters နဲ့ run
 ros2 run <package> lnn_inference_node.py --ros-args \
     -p model_path:=./lnn_model.pth \
@@ -33,4 +34,8 @@ ros2 run <package> lnn_inference_node.py --ros-args \
 # Standalone mode (ROS2 မလို - camera/video test)
 python3 lnn_inference_node.py --standalone --model ./lnn_model.pth --camera 0
 python3 lnn_inference_node.py --standalone --model ./lnn_model.pth --video test.mp4
+```
+or
+```bash
+python3 lnn_inference_node_mask.py --standalone --camera 0 --model ./lnn_model.pth
 ```

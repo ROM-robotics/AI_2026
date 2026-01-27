@@ -251,8 +251,13 @@ class LNNInferenceNode(Node):
             linear_x = float(prediction[0].cpu()) * self.max_linear_vel
             angular_z = float(prediction[1].cpu()) * self.max_angular_vel
             
+            # Training data မှာ linear velocity က positive only ဖြစ်တာကြောင့်
+            # negative value ထွက်လာရင် 0 အဖြစ် clamp လုပ်မယ် (backward မသွားစေရန်)
+            if linear_x < 0:
+                linear_x = 0.0
+            
             # Clamp values
-            linear_x = np.clip(linear_x, -self.max_linear_vel, self.max_linear_vel)
+            linear_x = np.clip(linear_x, 0, self.max_linear_vel)  # 0 to max only
             angular_z = np.clip(angular_z, -self.max_angular_vel, self.max_angular_vel)
             
             # Publish
