@@ -12,9 +12,6 @@
 
 - [[ Breast Cancer Wisconsin (Diagnostic) ]](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data): ဆဲလ်တွေရဲ့ အတိုင်းအတာတွေပေါ် မူတည်ပြီး ရောဂါရှိမရှိ ခန့်မှန်းတာပါ။ Random Forest က Feature Importance (ဘယ်အချက်က အရေးကြီးဆုံးလဲ) ကို ထုတ်ပေးနိုင်တာကြောင့် ဆေးဘက်ဆိုင်ရာမှာ အရမ်းသုံးပါတယ်။
 
-- [[  🌲 Forest Cover Type Prediction   ]](https://www.kaggle.com/c/forest-cover-type-prediction): ဘာကြောင့် စမ်းသင့်တာလဲ: * Multiclass Classification: ရှေ့က Project တွေလို Yes/No (Binary) တင်မဟုတ်ဘဲ သစ်တောအမျိုးအစား ၇ မျိုးအထိ ခွဲခြားရမှာပါ။
-Feature Diversity: မြေပြင်အနိမ့်အမြင့် (Elevation)၊ နေရောင်ခြည်ကျရောက်မှု (Hillshade) နဲ့ မြေဆီလွှာအမျိုးအစား (Soil Type) စတဲ့ Numeric ရော Categorical data တွေပါ ရောနေပါတယ်။
-Decision Boundaries: သစ်ပင်အမျိုးအစားတွေက တစ်ခုနဲ့တစ်ခု "အချက်အလက်ချင်း ထပ်နေတတ်တာ" ကြောင့် Linear models တွေထက် Decision Tree-based models တွေက ပိုပြီး တိတိကျကျ ခွဲခြားနိုင်တာကို တွေ့ရပါလိမ့်မယ်။
 
 
 ### Decision Tree vs Random Forest

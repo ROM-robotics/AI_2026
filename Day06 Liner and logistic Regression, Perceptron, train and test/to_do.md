@@ -13,6 +13,7 @@
 
 - [[ Real Estate Price Prediction  ]](https://www.kaggle.com/datasets/quantbruce/real-estate-price-prediction): တိုင်ပေမြို့က အိမ်ခြံမြေဈေးနှုန်းတွေကို တည်နေရာနဲ့ အနီးနားက အဆောက်အဦးတွေအပေါ် မူတည်ပြီး ခန့်မှန်းရမှာပါ။
 
+#### နမူနာ code
 - [[ Fish Market  ]](https://www.kaggle.com/datasets/vipullrathod/fish-market): ငါးရဲ့ အလျား၊ အနံ၊ အမြင့်တို့အပေါ် မူတည်ပြီး ငါးရဲ့အလေးချိန် (Weight) ကို ခန့်မှန်းရတဲ့ စိတ်ဝင်စားဖို့ကောင်းတဲ့ Data ဖြစ်ပါတယ်။
 
 
@@ -29,4 +30,5 @@
 
 - [[ Customer Churn Prediction   ]](https://www.kaggle.com/code/bhartiprasad17/customer-churn-prediction): ဘဏ် ဒါမှမဟုတ် တယ်လီကွန်းသုံးစွဲသူတွေက ဝန်ဆောင်မှုကို ဆက်သုံးမှာလား၊ ရပ်ဆိုင်းတော့မှာလား (Churn) ဆိုတာကို ခွဲခြားဖို့ပါ။
 
+#### နမူနာ code
 - [[ Social Network Ads   ]](https://www.kaggle.com/datasets/rakeshrau/social-network-ads): လူတစ်ယောက်ရဲ့ အသက်နဲ့ ဝင်ငွေအပေါ် မူတည်ပြီး လူမှုကွန်ရက်ပေါ်က ကြော်ငြာကို ကြည့်ပြီး ပစ္စည်းဝယ်မဝယ် ခန့်မှန်းရတာ ဖြစ်ပါတယ်။
