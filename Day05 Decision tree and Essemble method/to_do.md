@@ -19,3 +19,6 @@
 - Step 1 Decision Tree တစ်ခုတည်းနဲ့ အရင် Run ကြည့်ပါ။ ရလဒ်နဲ့ Tree ရဲ့ ပုံစံကို လေ့လာပါ။
 - Step 2 Random Forest (Ensemble) ကို သုံးပြီး Accuracy တက်မတက် ကြည့်ပါ။
 - Step 3 Feature Importance ကို ထုတ်ကြည့်ပါ။ (ဥပမာ- YouTube မှာဆိုရင် User က Video ကို နှိပ်ဖို့အတွက် Category က ပိုအရေးကြီးသလား၊ Watch time က ပိုအရေးကြီးသလား စသဖြင့်)
+
+### Photos
+- [decision_trees_photos](https://drive.google.com/drive/folders/1iEBeKRaXKlzB5YZd5Pu_ZN8sqWqPnql8?usp=sharing)
