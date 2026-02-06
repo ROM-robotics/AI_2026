@@ -21,4 +21,5 @@
 - Step 3 Feature Importance ကို ထုတ်ကြည့်ပါ။ (ဥပမာ- YouTube မှာဆိုရင် User က Video ကို နှိပ်ဖို့အတွက် Category က ပိုအရေးကြီးသလား၊ Watch time က ပိုအရေးကြီးသလား စသဖြင့်)
 
 ### Photos
-- [decision_trees_photos](https://drive.google.com/drive/folders/1iEBeKRaXKlzB5YZd5Pu_ZN8sqWqPnql8?usp=sharing)
+- [Decision_Trees_Photos](https://drive.google.com/drive/folders/1iEBeKRaXKlzB5YZd5Pu_ZN8sqWqPnql8?usp=sharing)
+- [Essemble_Methods_Photos](https://drive.google.com/drive/folders/1Bs10j2RCtetosF-MMqiPsljSLkbrg3So?usp=sharing)
