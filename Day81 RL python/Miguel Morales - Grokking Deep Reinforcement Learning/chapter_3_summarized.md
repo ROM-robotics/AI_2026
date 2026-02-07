@@ -105,12 +105,12 @@ graph LR
 
 ## 5. Optimality
 
-### Optimal Policy $\pi^*$
+### Optimal Policy $\pi^{*}$
 
-$$V^*(s) = \max_\pi V^\pi(s), \quad \forall s \in S$$
+$$V^{*}(s) = \max_\pi V^\pi(s), \quad \forall s \in S$$
 
-- MDP တစ်ခုမှာ **optimal state-value function** $V^*$ က **တစ်ခုတည်း** ရှိပါတယ်။
-- ဒါပေမယ့် **optimal policy** $\pi^*$ ကတော့ **တစ်ခုထက်ပိုနိုင်ပါတယ်** (Q-function မှာ equal values ရှိတဲ့ actions ရှိနိုင်လို့)။
+- MDP တစ်ခုမှာ **optimal state-value function** $V^{*}$ က **တစ်ခုတည်း** ရှိပါတယ်။
+- ဒါပေမယ့် **optimal policy** $\pi^{*}$ ကတော့ **တစ်ခုထက်ပိုနိုင်ပါတယ်** (Q-function မှာ equal values ရှိတဲ့ actions ရှိနိုင်လို့)။
 
 ### Bellman Equation
 
@@ -133,9 +133,9 @@ graph TD
 
 ### Bellman Optimality Equation
 
-$$V^*(s) = \max_a \sum_{s'} T(s,a,s') \left[ R(s,a,s') + \gamma V^*(s') \right]$$
+$$V^{*}(s) = \max_a \sum_{s'} T(s,a,s') \left[ R(s,a,s') + \gamma V^{*}(s') \right]$$
 
-$$Q^*(s,a) = \sum_{s'} T(s,a,s') \left[ R(s,a,s') + \gamma \max_{a'} Q^*(s', a') \right]$$
+$$Q^{*}(s,a) = \sum_{s'} T(s,a,s') \left[ R(s,a,s') + \gamma \max_{a'} Q^{*}(s', a') \right]$$
 
 ---
 
@@ -176,7 +176,7 @@ def policy_evaluation(pi, P, gamma=1.0, theta=1e-10):
 | Go-get-it | $0.0342$ | ~3.4% | 66 iterations |
 | Careful | $0.5370$ | ~53.7% | 546 iterations |
 | **Careful+** (improved) | $0.5420$ | **~73.2%** | 574 iterations |
-| **Optimal** $\pi^*$ | $0.5420$ | **~73.2%** | PI/VI converge |
+| **Optimal** $\pi^{*}$ | $0.5420$ | **~73.2%** | PI/VI converge |
 
 ---
 
@@ -397,7 +397,7 @@ graph TB
 | Action-Value | $Q^\pi(s,a) = \mathbb{E}_\pi[G_t \mid s_t = s, a_t = a]$ |
 | Advantage | $A^\pi(s,a) = Q^\pi(s,a) - V^\pi(s)$ |
 | Bellman | $V^\pi(s) = \sum_a \pi(a|s) \sum_{s'} T(s,a,s')[R + \gamma V^\pi(s')]$ |
-| Bellman Optimality | $V^*(s) = \max_a \sum_{s'} T(s,a,s')[R + \gamma V^*(s')]$ |
+| Bellman Optimality | $V^{*}(s) = \max_a \sum_{s'} T(s,a,s')[R + \gamma V^{*}(s')]$ |
 | PE Update | $V(s) \leftarrow \sum_{s'} T(s, \pi(s), s')[R + \gamma V(s')]$ |
 | PI Improvement | $\pi'(s) = \arg\max_a Q^\pi(s,a)$ |
 | VI Update | $V(s) \leftarrow \max_a \sum_{s'} T(s,a,s')[R + \gamma V(s')]$ |
