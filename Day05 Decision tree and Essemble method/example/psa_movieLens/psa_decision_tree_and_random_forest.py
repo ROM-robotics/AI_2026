@@ -102,7 +102,7 @@ rf_model = RandomForestClassifier(n_estimators=100,
                                   max_depth=10, 
                                   random_state=42) 
 
-# 3. Model ကို စာသင်ပေးခြင်း (Training)
+# 3. Model ကို(Training)
 rf_model.fit(X_train, y_train)
 
 # 4. ခန့်မှန်းခိုင်းခြင်း (Prediction)
