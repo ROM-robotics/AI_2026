@@ -1,0 +1,181 @@
+/* ══════════════════════════════════════════════════════════════════
+   LLM Studio — Textual CSS Stylesheet
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── Global ──────────────────────────────────────────────────────── */
+
+Screen {
+    background: $background;
+}
+
+Header {
+    background: $primary;
+    color: $text;
+    dock: top;
+}
+
+Footer {
+    dock: bottom;
+}
+
+/* ── Main Layout ─────────────────────────────────────────────────── */
+
+#main-layout {
+    width: 100%;
+    height: 1fr;
+}
+
+#screen-container {
+    width: 1fr;
+    height: 1fr;
+    overflow-y: auto;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────── */
+
+.sidebar-logo {
+    width: 100%;
+    height: auto;
+    content-align: center middle;
+    text-align: center;
+    color: $primary-lighten-2;
+    padding: 1 0;
+    text-style: bold;
+}
+
+.sidebar-divider {
+    width: 100%;
+    height: 1;
+    color: $primary-background;
+    text-align: center;
+    margin: 0;
+}
+
+.sidebar-help {
+    width: 100%;
+    height: auto;
+    padding: 1 0;
+    color: $text-muted;
+}
+
+#nav-items {
+    height: auto;
+    padding: 1 0;
+}
+
+/* ── Home Screen ─────────────────────────────────────────────────── */
+
+#home-content {
+    padding: 0 2;
+}
+
+#home-banner {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    padding: 1 0;
+}
+
+#home-cards {
+    height: auto;
+    width: 100%;
+}
+
+#home-actions {
+    height: auto;
+    padding: 1 0;
+}
+
+#home-actions Button {
+    margin: 0 1 0 0;
+}
+
+.home-divider {
+    color: $primary-background;
+    margin: 1 2;
+}
+
+#home-guide {
+    padding: 0 0 2 0;
+}
+
+/* ── Chat Screen ─────────────────────────────────────────────────── */
+
+ChatScreen {
+    layout: vertical;
+}
+
+/* ── Models Screen ───────────────────────────────────────────────── */
+
+ModelsScreen {
+    layout: vertical;
+}
+
+#download-progress {
+    margin: 1 0;
+}
+
+#download-status {
+    height: auto;
+    padding: 0 0;
+}
+
+/* ── Server Screen ───────────────────────────────────────────────── */
+
+ServerScreen {
+    layout: vertical;
+}
+
+/* ── Settings Screen ─────────────────────────────────────────────── */
+
+SettingsScreen {
+    layout: vertical;
+}
+
+/* ── Scrollbars ──────────────────────────────────────────────────── */
+
+VerticalScroll {
+    scrollbar-size: 1 1;
+    scrollbar-color: $primary-background;
+    scrollbar-color-hover: $primary;
+    scrollbar-color-active: $primary-lighten-1;
+}
+
+/* ── DataTable ───────────────────────────────────────────────────── */
+
+DataTable {
+    background: $surface;
+    border: round $primary-background;
+}
+
+DataTable > .datatable--header {
+    background: $primary-background;
+    color: $text;
+    text-style: bold;
+}
+
+DataTable > .datatable--cursor {
+    background: $primary 40%;
+}
+
+/* ── TabbedContent ───────────────────────────────────────────────── */
+
+TabbedContent {
+    height: 1fr;
+}
+
+TabPane {
+    padding: 0;
+}
+
+/* ── ProgressBar ─────────────────────────────────────────────────── */
+
+ProgressBar {
+    padding: 0 2;
+}
+
+/* ── Notifications ───────────────────────────────────────────────── */
+
+Toast {
+    margin: 1 2;
+}

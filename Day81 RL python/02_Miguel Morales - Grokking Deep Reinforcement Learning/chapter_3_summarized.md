@@ -360,6 +360,56 @@ H(0) -- 1 -- 2 -- S(3) -- 4 -- 5 -- G(6)    (SWF: 7 states)
 - Stochastic transitions ရှိပြီး value propagation ကို observe လုပ်ဖို့ သင့်တော်ပါတယ်။
 - VI ကို "always-left" adversarial policy ကနေစပြီး optimal policy ရှာတာပြသပါတယ်။
 
+```python
+import numpy as np
+
+# ၁။ ပတ်ဝန်းကျင် တည်ဆောက်ခြင်း (States: 0 1 2 3 4 5 6)
+# H(0) - 1 - 2 - S(3) - 4 - 5 - G(6)
+num_states = 7
+actions = [0, 1] # 0: Left, 1: Right
+gamma = 0.99     # Discount factor
+threshold = 1e-6 # Convergence threshold
+
+# Value table ကို zero နဲ့ စတင်မယ်
+V = np.zeros(num_states)
+# Goal (State 6) ရဲ့ value က အမြဲ 1 ဖြစ်မယ်လို့ ယူဆနိုင်တယ်
+V[6] = 0 
+
+def get_transitions(s, a):
+    """ လမ်းချော်နိုင်ခြေ (Slippery nature) ကို သတ်မှတ်ခြင်း """
+    # ညာဘက်သွားရင် ညာရောက်ဖို့ 80%, ဘယ်ရောက်သွားဖို့ 20% လို့ ဥပမာပေးထားပါတယ်
+    if a == 1: # Right
+        return [(0.8, s + 1 if s < 6 else 6), (0.2, s - 1 if s > 0 else 0)]
+    else: # Left
+        return [(0.8, s - 1 if s > 0 else 0), (0.2, s + 1 if s < 6 else 6)]
+
+# ၂။ Value Iteration Main Loop
+while True:
+    delta = 0
+    V_new = np.copy(V)
+    
+    for s in range(1, 6): # Hole (0) နဲ့ Goal (6) က Terminal states မို့လို့ ချန်ထားမယ်
+        old_v = V[s]
+        
+        action_values = []
+        for a in actions:
+            v_a = 0
+            for prob, next_s in get_transitions(s, a):
+                reward = 1.0 if next_s == 6 else 0.0
+                v_a += prob * (reward + gamma * V[next_s])
+            action_values.append(v_a)
+        
+        # အကောင်းဆုံး action ရဲ့ value ကို ယူမယ် (Bellman Update)
+        V_new[s] = max(action_values)
+        delta = max(delta, abs(old_v - V_new[s]))
+    
+    V = V_new
+    if delta < threshold: # တန်ဖိုးတွေ မပြောင်းလဲတော့ရင် ရပ်မယ်
+        break
+
+print("Optimal Value Function:", V)
+```
+
 ---
 
 ## 13. နိဂုံးချုပ်
