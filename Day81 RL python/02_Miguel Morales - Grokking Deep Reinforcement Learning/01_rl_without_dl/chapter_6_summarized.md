@@ -3,6 +3,10 @@
 ## 1. Chapter ရဲ့ ရည်ရွယ်ချက်
 
 ဒီ Chapter မှာ **control problem** ကို ဖြေရှင်းဖို့ agents တွေကို optimal policies ရှာဖွေနိုင်အောင် သင်ကြားပါတယ်။ Chapter 5 မှာ prediction problem (value function estimation) ကို ဖြေရှင်းခဲ့ပြီး, ဒီ Chapter မှာတော့ agent တွေက trial-and-error learning ဖြင့် arbitrary policies ကနေ optimal policies ဆီ ရောက်အောင် တတ်မြောက်ပါတယ်။
+ကွန်ဖြူးရှပ်ရဲ့ စကား
+```bash
+"ပန်းတိုင်ကို မရောက်နိုင်တော့ဘူးဆိုတာ ထင်ရှားနေတဲ့အခါ၊ ပန်းတိုင်ကို မပြင်ပါနဲ့၊ လုပ်ဆောင်ရမယ့် အဆင့်တွေကိုပဲ ပြင်ဆင်ပါ"။
+```
 
 ```mermaid
 graph TD
