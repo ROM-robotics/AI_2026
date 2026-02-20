@@ -1,6 +1,6 @@
 ### သင်တန်းသားများလေ့ကျင့်ရန်
 
-- [[ YouTube Recommendation Data  ]](https://www.kaggle.com/code/madaratheog/youtube-recommendation): User interaction တွေ၊ Video category တွေနဲ့ Watch time တွေ ပါဝင်ပါတယ်။ "Recommended video ကို User က နှိပ်မလား (Click-through rate)" ဆိုတာကို Random Forest နဲ့ Predict လုပ်ကြည့်လို့ ရပါတယ်။
+- [[ YouTube Trending Videos (Kaggle) ]](https://www.kaggle.com/datasets/datasnaek/youtube-new): User interaction တွေ၊ Video category တွေနဲ့ Watch time တွေ ပါဝင်ပါတယ်။ "Recommended video ကို User က နှိပ်မလား (Click-through rate)" ဆိုတာကို Random Forest နဲ့ Predict လုပ်ကြည့်လို့ ရပါတယ်။
 
 - [[ MovieLens Dataset ]](https://www.kaggle.com/datasets/ayushimishra2809/movielens-dataset): ဒါကတော့ Recommendation system လောကမှာ Standard ပါပဲ။ User တွေရဲ့ Rating တွေပေါ်မူတည်ပြီး နောက်ထပ် ဘယ်ကားကို ကြည့်မလဲဆိုတာကို Classify လုပ်နိုင်ပါတယ်။
 
