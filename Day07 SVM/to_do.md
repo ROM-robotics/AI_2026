@@ -8,6 +8,7 @@
 
 - [[ Wine Quality  ]](https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009): ခြင်းစ၏ ဓါတုဗေဒဆိုင်ရာ အင်္ဂါရပ်တွေ (အက်ဆစ်ဒ၊ sulfates စသည်) အပေါ်မူတည်ပြီး အရည်အသွေး (Quality) ကိုခန့်မှန်းရမှာပါ။
 
+
 - [[ Spam or Not Spam  ]](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset): SMS သတင်းများကို ကြည့်ပြီး အန္တရာယ်ကင်းတဲ့ သတင်း (Ham) အဖြစ်ရှိမရှိ သို့မဟုတ် အန္တရာယ်ရှိတဲ့ သတင်း (Spam) အဖြစ်ရှိမရှိ ခွဲခြားရမှာပါ။
 
 - [[ Customer Churn Predictiont ]](https://www.kaggle.com/datasets/shrutimechlearn/churn-modelling): ဘဏ်အသုံးပြုသူတစ်ယောက်ဟာ ဘဏ်ဝန်ဆောင်မှုကို ဆက်သုံးမလား ဒါမှမဟုတ် ထွက်သွားမလား (Churn) ဆိုတာကို ခန့်မှန်းရမှာပါ။
