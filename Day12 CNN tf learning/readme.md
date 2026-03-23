@@ -27,3 +27,8 @@ EXPORT_FORMAT = "folder"
 - `API Key` ကို Roboflow Settings ကနေ ယူပါ။
 - `Workspace`/`Project`/`Version` ကို dataset link (URL) ထဲက slug နဲ့ ကိုက်ညီအောင် ထည့်ပါ။
 - version အမှား ဖြစ်ပါက dataset download မဖြစ်နိုင်ပါ။
+
+
+Slides URLs - Google Drive
+
+https://drive.google.com/drive/folders/10Fy--rTTPQ4mTWQch1wJCD58CZ6haGgd?usp=sharing
