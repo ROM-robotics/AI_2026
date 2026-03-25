@@ -71,3 +71,8 @@ EXPORT_FORMAT = "folder"
 - Version မှားရင် dataset download မရနိုင်ပါ ❌  
 - Notebook ကို kaggle တို့တွင် GPU အထောက်အပံ့ဖြင့် run လုပ်ပါ။
 - Roboflow API Key ကို publicly commit မလုပ်ပါနှင့်။
+
+
+Slides URLs - Google Drive
+
+https://drive.google.com/drive/folders/10Fy--rTTPQ4mTWQch1wJCD58CZ6haGgd?usp=sharing
