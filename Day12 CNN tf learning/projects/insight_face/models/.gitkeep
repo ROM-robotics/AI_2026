@@ -1,0 +1,11 @@
+# models/
+# InsightFace ONNX model files ကို ဒီနေရာမှာ ထားပါ။
+#
+# Auto-download လုပ်မည်ဆိုရင် FaceAnalysis(name='buffalo_l') run လိုက်ပါ။
+# Model files သည် ~/.insightface/models/ ထဲမှာ ဆင်းမည်။
+#
+# Manual download လုပ်လိုပါက:
+#   buffalo_l/     ← det_10g.onnx, w600k_r50.onnx, ...
+#   inswapper_128.onnx  ← face swap model (optional)
+#
+# https://github.com/deepinsight/insightface/tree/master/model_zoo

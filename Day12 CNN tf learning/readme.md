@@ -66,13 +66,21 @@ EXPORT_FORMAT = "folder"
 ```
 ### 💡 မှတ်ထားရန်
 
+<<<<<<<<< Temporary merge branch 1
 - URL ထဲက **Workspace / Project / Version** ကိုသာ ယူပြီး replace လုပ်ရမယ်  
 - `"Your ..."` ဆိုတာတွေကို မိမိ dataset နဲ့ကိုက်ညီအောင် ပြောင်းပေးရမယ်  
 - Version မှားရင် dataset download မရနိုင်ပါ ❌  
 - Notebook ကို kaggle တို့တွင် GPU အထောက်အပံ့ဖြင့် run လုပ်ပါ။
 - Roboflow API Key ကို publicly commit မလုပ်ပါနှင့်။
+=========
+#### မှတ်ချက်များ
+
+- `API Key` ကို Roboflow Settings ကနေ ယူပါ။
+- `Workspace`/`Project`/`Version` ကို dataset link (URL) ထဲက slug နဲ့ ကိုက်ညီအောင် ထည့်ပါ။
+- version အမှား ဖြစ်ပါက dataset download မဖြစ်နိုင်ပါ။
 
 
 Slides URLs - Google Drive
 
 https://drive.google.com/drive/folders/10Fy--rTTPQ4mTWQch1wJCD58CZ6haGgd?usp=sharing
+>>>>>>>>> Temporary merge branch 2

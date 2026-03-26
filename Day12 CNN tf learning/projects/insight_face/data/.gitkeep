@@ -1,0 +1,10 @@
+# data/
+# Test images နှင့် videos ကို ဒီနေရာမှာ ထားပါ။
+#
+# Recommended structure:
+#   data/
+#   ├── images/       ← *.jpg, *.png test images
+#   ├── videos/       ← *.mp4, *.avi test videos
+#   └── gallery/      ← face registration images (1 person per subfolder)
+#       ├── person_a/
+#       └── person_b/
