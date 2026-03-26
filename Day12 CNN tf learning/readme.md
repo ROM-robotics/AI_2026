@@ -1,18 +1,61 @@
-### Day12 — CNN (Transfer-Learning) 
+### Day 12 — CNN (Transfer Learning)
 
-ဒီ folder မှာ CNN လေ့ကျင့်ခန်းများ၊ dataset ထည့်သွင်းနည်း၊ example code တွေ ပါဝင်ပါတယ်။
+ဒီ folder မှာ **CNN Transfer Learning** ဆိုင်ရာ လေ့ကျင့်ခန်းများ၊ dataset အသုံးပြုနည်းများ နှင့် example code များ ပါဝင်ပါတယ်။
 
-#### Dataset Sources (01/02/03/04)
+---
 
-- `01_resnet50_facial_emotion.ipynb` — Hugging Face dataset
-- `02_efficientnet-fruit-classification.ipynb` — Roboflow dataset
-- `03_mobilenetv3-fruit-classification.ipynb` — Roboflow dataset
-- `04_convnext_object_detection.ipynb` — PASCAL VOC 2012 dataset
+### 📂 Included Notebooks (Datasets 01 / 02 / 03 / 04)
 
-#### Roboflow Dataset အသုံးပြုနည်း
+- `01_resnet50_facial_emotion.ipynb`  
+  → [Hugging Face Dataset](https://huggingface.co/datasets) အသုံးပြုထားပါတယ်။
 
-Roboflow မှ dataset ယူရာတွင် `API Key` ကို Roboflow Settings ကနေယူပါ။  
-`ROBOFLOW_WORKSPACE`, `ROBOFLOW_PROJECT`, `ROBOFLOW_VERSION` ကို dataset link နဲ့ ကိုက်ညီအောင် ပြောင်းပေးရပါမယ်။  
+- `02_efficientnet-fruit-classification.ipynb`  
+  → [Roboflow Dataset](https://roboflow.com/) အသုံးပြုထားပါတယ်။
+
+- `03_mobilenetv3-fruit-classification.ipynb`  
+  → [Roboflow Dataset](https://roboflow.com/) အသုံးပြုထားပါတယ်။
+
+- `04_convnext_object_detection.ipynb`  
+  → [PASCAL VOC 2012 Dataset](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/) အသုံးပြုထားပါတယ်။
+
+---
+
+### 📥 Roboflow Dataset အသုံးပြုနည်း
+
+Roboflow dataset ကို download လုပ်ရန် အောက်ပါအဆင့်များကို လိုက်နာပါ —
+
+1. **API Key ရယူခြင်း**  
+   → Roboflow account ၏ *Settings* မှာ API Key ကို ရယူပါ
+
+2. **Dataset URL မှ Information ထုတ်ယူခြင်း**  
+   → Dataset URL ထဲက `ROBOFLOW_WORKSPACE`, `ROBOFLOW_PROJECT`, `ROBOFLOW_VERSION` ကို dataset link နဲ့ ကိုက်ညီအောင် ပြောင်းပေးရပါမယ်။  
+
+---
+
+### 🔍 Example URL Analysis
+
+ဥပမာ Dataset URL —
+
+https://app.roboflow.com/hmue/fruit-dcjhh-pkb5t/1
+
+ဒီ URL ကို အပိုင်းလိုက် ခွဲကြည့်ရင် —
+
+- `hmue` → **Workspace**
+- `fruit-dcjhh-pkb5t` → **Project Name**
+- `1` → **Version**
+
+👉 ဒါကြောင့် code ထဲမှာ အောက်ပါအတိုင်း ပြောင်းရပါမယ် —
+
+- `Your Workspace` → `hmue`  
+- `Your Project` → `fruit-dcjhh-pkb5t`  
+- `Your Version` → `1`  
+
+---
+
+
+### ⚙️ Code Configuration (Notebook 02 & 03)
+
+အောက်ပါ code ကို မိမိ dataset အတိုင်း ပြင်ဆင်ပါ —
 
 ```python
 ROBOFLOW_API_KEY = os.getenv("ROBOFLOW_API_KEY", "Your API Key here")
@@ -21,6 +64,8 @@ ROBOFLOW_PROJECT = os.getenv("ROBOFLOW_PROJECT", "Your Project")
 ROBOFLOW_VERSION = int(os.getenv("ROBOFLOW_VERSION", "Your Version"))
 EXPORT_FORMAT = "folder"
 ```
+### 💡 မှတ်ထားရန်
+
 
 #### မှတ်ချက်များ
 
