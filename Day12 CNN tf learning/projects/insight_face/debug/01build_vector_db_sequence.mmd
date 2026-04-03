@@ -1,0 +1,81 @@
+sequenceDiagram
+    autonumber
+    actor CLI as User / CLI
+    participant Main as main()
+    participant Loader as load_model()
+    participant App as FaceAnalysis
+    participant Builder as build_embeddings()
+    participant Gallery as Gallery Directory
+    participant CV2 as cv2.imread
+    participant BestEmb as get_best_embedding()
+    participant PKL as save_pkl()
+    participant NPZ as save_npz()
+    participant DB as data/vector_db
+
+    CLI->>Main: Run 01build_vector_db.py
+    Main->>Main: Parse args
+    Main->>Main: Ensure output directory exists
+
+    Main->>Loader: load_model()
+    Loader->>App: FaceAnalysis(name, root, providers)
+    Loader->>App: prepare(ctx_id=0, det_size=(640, 640))
+    App-->>Loader: Ready app
+    Loader-->>Main: app
+
+    Main->>Builder: build_embeddings(app, gallery_dir)
+    Builder->>Gallery: List person folders
+
+    loop each person directory
+        Gallery-->>Builder: person_name / person_dir
+        Builder->>Gallery: List image files
+
+        loop each image file
+            Builder->>CV2: imread(img_path)
+            alt image cannot be read
+                CV2-->>Builder: None
+                Builder->>Builder: Log warning and skip
+            else image loaded
+                CV2-->>Builder: img ndarray
+                Builder->>BestEmb: get_best_embedding(app, img)
+                BestEmb->>App: get(img)
+
+                alt no face detected
+                    App-->>BestEmb: []
+                    BestEmb-->>Builder: None
+                    Builder->>Builder: Log skipped image
+                else face(s) detected
+                    App-->>BestEmb: faces with det_score + embedding
+                    BestEmb->>BestEmb: Pick highest-confidence face
+                    BestEmb->>BestEmb: L2-normalize embedding
+                    BestEmb-->>Builder: embedding
+                    Builder->>Builder: Append embedding
+                end
+            end
+        end
+
+        alt person has valid embeddings
+            Builder->>Builder: Mean embeddings across images
+            Builder->>Builder: L2-normalize mean embedding
+            Builder->>Builder: result[person_name] = mean_embedding
+        else no valid embeddings
+            Builder->>Builder: Skip person
+        end
+    end
+
+    Note over Builder,BestEmb: Each image uses the best detected face.<br/>Each person stores one normalized mean embedding.
+
+    Builder-->>Main: embeddings dict
+
+    alt no embeddings extracted
+        Main-->>CLI: Print error and exit
+    else embeddings available
+        Main->>PKL: save_pkl(embeddings, out_dir)
+        PKL->>DB: Write embeddings.pkl
+        PKL-->>Main: pkl_path
+
+        Main->>NPZ: save_npz(embeddings, out_dir)
+        NPZ->>DB: Write embeddings.npz
+        NPZ-->>Main: npz_path
+
+        Main-->>CLI: Print saved paths and person count
+    end
