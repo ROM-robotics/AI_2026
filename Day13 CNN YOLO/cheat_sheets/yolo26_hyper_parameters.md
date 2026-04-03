@@ -1,0 +1,409 @@
+# YOLO26 User-Tunable Hyperparameters
+
+ဒီ note က Ultralytics YOLO26 ကို train / val / predict / export လုပ်တဲ့အချိန် user က tuning လုပ်လို့ရတဲ့ hyperparameters တွေကို model အမျိုးအစားအလိုက် ခွဲရေးထားတာပါ။
+
+ဒီမှာ "model အမျိုးအစား" ဆိုတာကို task type အလိုက် ခွဲထားပါတယ်:
+
+- Detect models: `yolo26n.pt`, `yolo26s.pt`, `yolo26m.pt`, `yolo26l.pt`, `yolo26x.pt`
+- Segment models: `yolo26n-seg.pt` ... `yolo26x-seg.pt`
+- Classify models: `yolo26n-cls.pt` ... `yolo26x-cls.pt`
+- Pose models: `yolo26n-pose.pt` ... `yolo26x-pose.pt`
+- OBB models: `yolo26n-obb.pt` ... `yolo26x-obb.pt`
+
+## 1. Important Note About YOLO26
+
+Ultralytics global configuration docs ထဲမှာ `dfl` hyperparameter ကို generic YOLO setting အနေနဲ့ ဖော်ပြထားပေမယ့်, YOLO26 paper က DFL removal ကို အဓိက architectural change အနေနဲ့ဖော်ပြထားပါတယ်။
+
+အဲဒါကြောင့် YOLO26-specific tuning လုပ်တဲ့အခါ:
+
+- `box`, `cls`, `pose`, `angle`, `mask_ratio`, `dropout` စတဲ့ task-specific settings တွေကို အဓိကထားပါ
+- `dfl` ကို docs ထဲမှာတွေ့နိုင်ပေမယ့်, YOLO26 run မှာ လက်တွေ့အသုံးဝင်/မဝင်က installed Ultralytics build ပေါ်မူတည်နိုင်ပါတယ်
+- မသေချာရင် `dfl` ကို မထိဘဲ common + task-specific knobs တွေကို ဦးစားပေး tuning လုပ်တာ ပို safe ဖြစ်ပါတယ်
+
+## 2. Common Hyperparameters for All YOLO26 Models
+
+အောက်က parameters တွေက detect / segment / classify / pose / obb models အများစုမှာ user က အဓိက tuning လုပ်လေ့ရှိတဲ့ shared hyperparameters တွေပါ။
+
+| Hyperparameter | Meaning | Typical Use |
+| --- | --- | --- |
+| `epochs` | training epoch count | underfit ဖြစ်ရင်တိုး, overfit ဖြစ်ရင်လျှော့ |
+| `batch` | batch size | GPU memory အလိုက် tune |
+| `imgsz` | input image size | small objects များရင်တိုး |
+| `optimizer` | optimizer type | `auto`, `SGD`, `MuSGD`, `AdamW` စမ်းနိုင် |
+| `lr0` | initial learning rate | unstable ဖြစ်ရင်လျှော့ |
+| `lrf` | final LR fraction | long training မှာ scheduler shape ထိန်း |
+| `momentum` | optimizer momentum | SGD/MuSGD stability tuning |
+| `weight_decay` | L2 regularization | overfit လျှော့ရန် |
+| `warmup_epochs` | warmup period | training အစပိုင်း stabilize လုပ်ရန် |
+| `warmup_momentum` | warmup momentum | warmup shape tune |
+| `warmup_bias_lr` | warmup bias LR | early epochs stabilize |
+| `patience` | early stopping patience | validation plateau ကိုစောင့်ရန် |
+| `cos_lr` | cosine LR schedule | smooth LR decay လိုရင် |
+| `close_mosaic` | last N epochs mosaic ပိတ် | final epochs stabilize |
+| `amp` | mixed precision training | memory/save speed |
+| `cache` | RAM/disk cache | training speed မြှင့် |
+| `workers` | dataloader workers | input pipeline speed tune |
+| `device` | CPU/GPU selection | runtime control |
+| `freeze` | freeze first N layers | transfer learning / small dataset |
+| `fraction` | dataset fraction | quick experiments |
+| `seed` | reproducibility | repeatable experiment |
+| `deterministic` | deterministic ops | reproducibility priority |
+| `project`, `name` | run naming | experiment management |
+
+### Common CLI example
+
+```powershell
+yolo detect train model=yolo26n.pt data=data.yaml epochs=100 batch=16 imgsz=640 optimizer=MuSGD lr0=0.01 weight_decay=0.0005 device=0
+```
+
+## 3. Common Augmentation Hyperparameters
+
+ဒီ knobs တွေက model quality ကို အရမ်းသက်ရောက်တတ်ပါတယ်။ Dataset quality နိမ့်တဲ့အခါ augmentation tuning က learning rate tuning လောက်တောင် အရေးကြီးတတ်ပါတယ်။
+
+| Hyperparameter | Tasks | What it changes |
+| --- | --- | --- |
+| `hsv_h`, `hsv_s`, `hsv_v` | all tasks | color jitter |
+| `degrees` | detect, segment, pose, obb | random rotation |
+| `translate` | detect, segment, pose, obb | spatial shift |
+| `scale` | all tasks | zoom in/out |
+| `shear` | detect, segment, pose, obb | geometric shear |
+| `perspective` | detect, segment, pose, obb | perspective warp |
+| `flipud`, `fliplr` | all tasks | vertical / horizontal flip |
+| `mosaic` | detect, segment, pose, obb | 4-image mosaic |
+| `mixup` | detect, segment, pose, obb | blended images |
+| `cutmix` | detect, segment, pose, obb | partial mix |
+| `copy_paste` | segment | paste objects across images |
+| `copy_paste_mode` | segment | `flip`, `mixup` |
+| `auto_augment` | classify | `randaugment`, `autoaugment`, `augmix` |
+| `erasing` | classify | random erasing |
+
+### Practical tuning hints
+
+- small dataset ဆိုရင် augmentation ကို တိုးစမ်းပါ
+- already noisy dataset ဆိုရင် `mosaic`, `mixup`, `cutmix` ကိုလျှော့စမ်းပါ
+- aerial / rotated objects dataset တွေမှာ `degrees` နဲ့ `scale` က အထူးအရေးကြီးတယ်
+- classification မှာ `auto_augment` နဲ့ `erasing` က effect ကြီးတတ်တယ်
+
+## 4. Detect Models
+
+Models:
+
+- `yolo26n.pt`
+- `yolo26s.pt`
+- `yolo26m.pt`
+- `yolo26l.pt`
+- `yolo26x.pt`
+
+### Detect အတွက်အဓိက tuning လုပ်ရမယ့် hyperparameters
+
+| Hyperparameter | Why it matters |
+| --- | --- |
+| `imgsz` | small objects များရင် accuracy တိုးနိုင် |
+| `batch` | gradient stability vs VRAM |
+| `lr0` | convergence speed |
+| `optimizer` | `MuSGD` / `SGD` / `AdamW` stability difference |
+| `box` | localization emphasis |
+| `cls` | classification emphasis |
+| `mosaic` | crowded scenes/generalization |
+| `mixup`, `cutmix` | regularization |
+| `close_mosaic` | final epoch stabilization |
+| `multi_scale` | variable-size robustness |
+| `single_cls` | all objects as one class |
+| `classes` | selected classes only |
+
+### Detect-specific predict tuning
+
+| Hyperparameter | Use |
+| --- | --- |
+| `conf` | false positive များရင်တိုး |
+| `iou` | traditional NMS style filtering when applicable |
+| `max_det` | dense scenes |
+| `agnostic_nms` | class-agnostic duplicate removal |
+| `end2end` | YOLO26 NMS-free mode override |
+
+### Detect CLI template
+
+```powershell
+yolo detect train model=yolo26m.pt data=data.yaml epochs=150 imgsz=640 batch=16 lr0=0.005 optimizer=MuSGD box=7.5 cls=0.5 mosaic=1.0 close_mosaic=10 device=0
+```
+
+### Detect tuning advice
+
+- small objects များရင် `imgsz=800` သို့မဟုတ် `imgsz=960` စမ်းပါ
+- false negatives များရင် `imgsz` တိုး, `mosaic` ထိန်း, dataset labels စစ်
+- unstable training ဖြစ်ရင် `lr0` လျှော့, `warmup_epochs` တိုး
+
+## 5. Segment Models
+
+Models:
+
+- `yolo26n-seg.pt`
+- `yolo26s-seg.pt`
+- `yolo26m-seg.pt`
+- `yolo26l-seg.pt`
+- `yolo26x-seg.pt`
+
+### Segment အတွက်အဓိက hyperparameters
+
+| Hyperparameter | Why it matters |
+| --- | --- |
+| `imgsz` | mask detail quality |
+| `batch` | memory demand high ဖြစ်တတ် |
+| `lr0`, `optimizer` | convergence |
+| `box`, `cls` | detection side quality |
+| `overlap_mask` | overlap masks training behavior |
+| `mask_ratio` | mask training resolution |
+| `copy_paste` | object count/diversity တိုး |
+| `copy_paste_mode` | paste behavior |
+| `mosaic`, `mixup` | generalization |
+
+### Segment predict tuning
+
+| Hyperparameter | Use |
+| --- | --- |
+| `conf` | weak masks များလျှင်တိုး |
+| `retina_masks` | original-size masks လိုရင် `True` |
+| `show_boxes` | masks only ကြည့်ချင်ရင် `False` |
+
+### Segment CLI template
+
+```powershell
+yolo segment train model=yolo26m-seg.pt data=data.yaml epochs=150 imgsz=640 batch=8 lr0=0.005 optimizer=MuSGD mask_ratio=4 overlap_mask=True copy_paste=0.2 mosaic=1.0 device=0
+```
+
+### Segment tuning advice
+
+- mask edges မကောင်းရင် `imgsz` တိုးစမ်းပါ
+- thin objects များရင် `mask_ratio` ကိုပိုသတိထားပြီး tune လုပ်ပါ
+- overlap များတဲ့ scene တွေမှာ `overlap_mask` behavior ကို compare run လုပ်ပါ
+
+## 6. Classify Models
+
+Models:
+
+- `yolo26n-cls.pt`
+- `yolo26s-cls.pt`
+- `yolo26m-cls.pt`
+- `yolo26l-cls.pt`
+- `yolo26x-cls.pt`
+
+### Classify အတွက်အဓိက hyperparameters
+
+| Hyperparameter | Why it matters |
+| --- | --- |
+| `imgsz` | input crop size, default class models often use smaller inputs |
+| `batch` | throughput and stability |
+| `lr0`, `weight_decay` | generalization |
+| `dropout` | overfitting control |
+| `auto_augment` | visual diversity |
+| `erasing` | robustness to missing regions |
+| `fliplr`, `flipud` | symmetry assumptions |
+| `hsv_h`, `hsv_s`, `hsv_v` | color robustness |
+
+### Classification-specific notes
+
+- class imbalance ရှိရင် data balancing ကို hyperparameter tuning ထက်အရင်စဉ်းစားပါ
+- extreme aspect ratio images တွေမှာ default crop pipeline က informative region ကိုဖြတ်ပစ်နိုင်လို့ custom dataset/resize pipeline စဉ်းစားရမယ်
+- overfit မြန်ရင် `dropout`, `weight_decay`, `erasing` တိုးစမ်းပါ
+
+### Classify CLI template
+
+```powershell
+yolo classify train model=yolo26m-cls.pt data=imagenet_like_dataset epochs=100 imgsz=224 batch=64 lr0=0.001 optimizer=AdamW dropout=0.2 auto_augment=randaugment erasing=0.25 device=0
+```
+
+### Classify tuning advice
+
+- small dataset ဆို `dropout=0.1` to `0.3` စမ်းနိုင်
+- image detail အများကြီးလိုရင် `imgsz=256` or `320` စမ်းနိုင်
+- training slow overfit မဖြစ်ဘဲ underfit ဖြစ်ရင် `dropout` လျှော့ပါ
+
+## 7. Pose Models
+
+Models:
+
+- `yolo26n-pose.pt`
+- `yolo26s-pose.pt`
+- `yolo26m-pose.pt`
+- `yolo26l-pose.pt`
+- `yolo26x-pose.pt`
+
+### Pose အတွက်အဓိက hyperparameters
+
+| Hyperparameter | Why it matters |
+| --- | --- |
+| `imgsz` | keypoint localization precision |
+| `batch` | memory and convergence |
+| `lr0`, `optimizer` | convergence |
+| `pose` | keypoint loss weight |
+| `kobj` | keypoint objectness balance |
+| `rle` | keypoint localization refinement |
+| `degrees`, `scale`, `translate` | human pose variation robustness |
+| `fliplr` | left-right symmetry learning |
+| `mosaic` | sometimes helpful, but too strong can hurt fine joints |
+
+### Pose CLI template
+
+```powershell
+yolo pose train model=yolo26m-pose.pt data=pose_data.yaml epochs=150 imgsz=640 batch=16 lr0=0.005 optimizer=MuSGD pose=12.0 kobj=1.0 rle=1.0 fliplr=0.5 mosaic=0.5 device=0
+```
+
+### Pose tuning advice
+
+- keypoints jitter ဖြစ်ရင် `imgsz` တိုးစမ်းပါ
+- body joints fine detail မဖမ်းနိုင်ရင် augmentation ကိုလျှော့ပြီး `pose` weight ကိုစမ်းပါ
+- heavily cropped human images dataset မှာ `translate` များလွန်းရင် accuracy ကျနိုင်တယ်
+
+## 8. OBB Models
+
+Models:
+
+- `yolo26n-obb.pt`
+- `yolo26s-obb.pt`
+- `yolo26m-obb.pt`
+- `yolo26l-obb.pt`
+- `yolo26x-obb.pt`
+
+### OBB အတွက်အဓိက hyperparameters
+
+| Hyperparameter | Why it matters |
+| --- | --- |
+| `imgsz` | aerial / remote sensing detail အတွက် အရေးကြီး |
+| `batch` | large-resolution training memory |
+| `lr0`, `optimizer` | convergence |
+| `box`, `cls` | box/class balance |
+| `angle` | rotated box angle precision |
+| `degrees` | orientation robustness |
+| `scale`, `translate`, `perspective` | viewpoint robustness |
+| `mosaic` | scene diversity |
+| `close_mosaic` | training stabilization |
+
+### OBB-specific notes
+
+- OBB angles are constrained to `0-90` degrees range in Ultralytics docs
+- OBB datasets internally use `xywhr` representation for center, width, height, rotation
+- OBB task တွေမှာ image size ကို detect task ထက် ပိုကြီးစွာသုံးတတ်တယ်
+
+### OBB CLI template
+
+```powershell
+yolo obb train model=yolo26m-obb.pt data=dota_like.yaml epochs=150 imgsz=1024 batch=8 lr0=0.005 optimizer=MuSGD angle=1.0 degrees=10 scale=0.5 perspective=0.0005 mosaic=1.0 device=0
+```
+
+### OBB tuning advice
+
+- aerial imagery မှာ `imgsz=1024` သို့မဟုတ်ပိုမြင့်တဲ့ size က often effective ဖြစ်တယ်
+- angle prediction မတိကျရင် `angle`, `degrees`, dataset annotation quality ကိုအရင်စစ်ပါ
+- tiny rotated objects များရင် larger `imgsz` က အများဆုံးအကျိုးရှိတတ်တယ်
+
+## 9. Model Scale-wise Practical Tuning
+
+Task မတူပေမယ့် model scale `n/s/m/l/x` အလိုက် tuning strategy လည်း ကွာတတ်ပါတယ်။
+
+| Scale | Practical strategy |
+| --- | --- |
+| `n` | quick experiments, large batch, faster iteration |
+| `s` | balanced baseline |
+| `m` | good production starting point |
+| `l` | stronger accuracy, lower batch often needed |
+| `x` | max accuracy, highest VRAM use, more careful LR/batch tuning |
+
+### Suggested starting points
+
+| Scale | Suggested `batch` | Suggested use |
+| --- | --- | --- |
+| `n` | 16 to 64 | fast ablation, weak GPU |
+| `s` | 16 to 32 | good first serious run |
+| `m` | 8 to 24 | balanced training |
+| `l` | 4 to 16 | stronger GPU |
+| `x` | 2 to 8 | highest-memory setup |
+
+Note:
+
+- exact batch size က GPU VRAM, task type, imgsz ပေါ်မူတည်ပြီး အရမ်းကွာနိုင်တယ်
+- segment / pose / obb models တွေမှာ same scale even detect ထက် memory ပိုသုံးတတ်တယ်
+
+## 10. Train / Predict / Export Hyperparameters by Stage
+
+User tuning လုပ်လို့ရတဲ့ hyperparameters တွေကို stage အလိုက်ပြန်ခွဲရင်:
+
+### Train stage
+
+- `epochs`, `batch`, `imgsz`, `optimizer`, `lr0`, `lrf`, `momentum`, `weight_decay`
+- `warmup_epochs`, `warmup_momentum`, `warmup_bias_lr`
+- `box`, `cls`, `pose`, `kobj`, `rle`, `angle`
+- `mosaic`, `mixup`, `cutmix`, `copy_paste`, `auto_augment`, `erasing`
+- `close_mosaic`, `multi_scale`, `freeze`, `fraction`, `amp`
+
+### Predict stage
+
+- `conf`, `iou`, `imgsz`, `device`, `max_det`
+- `agnostic_nms`, `end2end`, `retina_masks`
+- `show`, `save`, `save_txt`, `save_conf`, `line_width`
+
+### Export stage
+
+- `format`, `imgsz`, `half`, `int8`, `dynamic`, `simplify`, `opset`, `workspace`, `batch`, `device`, `end2end`
+
+## 11. Recommended Tuning Order
+
+Hyperparameters အားလုံးတစ်ခါတည်းမပြင်ဘဲ ဒီ order နဲ့ tune လုပ်ရင် ပိုကောင်းပါတယ်:
+
+1. `imgsz`, `batch`, `epochs`
+2. `lr0`, `optimizer`, `weight_decay`
+3. task-specific loss weights (`box`, `cls`, `pose`, `angle`, `dropout`, `mask_ratio`)
+4. augmentation knobs (`mosaic`, `mixup`, `copy_paste`, `auto_augment`, `erasing`)
+5. predict-stage thresholds (`conf`, `iou`, `max_det`)
+
+## 12. Example Command Templates by Task
+
+### Detect
+
+```powershell
+yolo detect train model=yolo26s.pt data=data.yaml epochs=100 imgsz=640 batch=16 lr0=0.005 optimizer=MuSGD box=7.5 cls=0.5 mosaic=1.0 device=0
+```
+
+### Segment
+
+```powershell
+yolo segment train model=yolo26s-seg.pt data=data.yaml epochs=100 imgsz=640 batch=8 lr0=0.005 mask_ratio=4 copy_paste=0.2 device=0
+```
+
+### Classify
+
+```powershell
+yolo classify train model=yolo26s-cls.pt data=dataset_cls epochs=100 imgsz=224 batch=64 lr0=0.001 dropout=0.2 auto_augment=randaugment erasing=0.25 device=0
+```
+
+### Pose
+
+```powershell
+yolo pose train model=yolo26s-pose.pt data=pose_data.yaml epochs=100 imgsz=640 batch=16 lr0=0.005 pose=12.0 kobj=1.0 device=0
+```
+
+### OBB
+
+```powershell
+yolo obb train model=yolo26s-obb.pt data=dota_like.yaml epochs=100 imgsz=1024 batch=8 lr0=0.005 angle=1.0 degrees=10 device=0
+```
+
+## 13. Short Summary
+
+အလွယ်ပြောရရင်:
+
+- Detect: `imgsz`, `box`, `cls`, `conf`, `mosaic`
+- Segment: `mask_ratio`, `overlap_mask`, `copy_paste`
+- Classify: `dropout`, `auto_augment`, `erasing`, `imgsz`
+- Pose: `pose`, `kobj`, `rle`, `imgsz`
+- OBB: `angle`, `degrees`, `imgsz`, `perspective`
+
+Common tuning backbone ကတော့:
+
+- `batch`
+- `lr0`
+- `optimizer`
+- `weight_decay`
+- `epochs`
+- `imgsz`
+
+ဒီ 6 ခုက almost every YOLO26 experiment မှာ first priority tuning knobs ဖြစ်ပါတယ်။
