@@ -7,6 +7,13 @@ MobileNet V2 / V3-Small / V3-Large ကိုသုံးပြီး transfer le
 - Full model fine-tune မယ်
 - Weight only + Full model save မယ်
 """
+import os
+# ကျန်တဲ့ import တွေ အားလုံးရဲ့ အပေါ်ဆုံးမှာ ထားပေးပါ
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+
+import torch
+import torch.nn as nn
+# ... ကျန်တဲ့ import များ
 
 import os
 import time

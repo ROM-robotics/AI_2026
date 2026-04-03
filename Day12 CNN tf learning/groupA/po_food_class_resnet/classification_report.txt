@@ -1,0 +1,11 @@
+               precision    recall  f1-score   support
+
+chicken_wings       0.93      0.94      0.94       150
+club_sandwich       0.94      0.99      0.96       150
+       donuts       0.95      0.94      0.94       150
+        pizza       0.96      0.96      0.96       150
+        sushi       0.96      0.91      0.94       150
+
+     accuracy                           0.95       750
+    macro avg       0.95      0.95      0.95       750
+ weighted avg       0.95      0.95      0.95       750
